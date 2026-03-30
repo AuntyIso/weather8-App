@@ -2,7 +2,7 @@ function refreshWeather(response) {
   let temperatureElement = document.querySelector("#temperature");
   let temperature = response.data.temperature.current;
   let cityElement = document.querySelector("#city");
-  let detailsElement = document.querySelector("#details");
+  let descriptionElement = document.querySelector("#description");
   let humidityElement = document.querySelector("#humidity");
   let windSpeedElement = document.querySelector("#wind-speed");
   let timeElement = document.querySelector("#time");
@@ -11,7 +11,7 @@ function refreshWeather(response) {
 
   cityElement.innerHTML = response.data.city;
   timeElement.innerHTML = formatDate(date);
-  detailsElement.innerHTML = response.data.condition.details;
+  descriptionElement.innerHTML = response.data.condition.description;
   humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
   windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
   temperatureElement.innerHTML = Math.round(temperature);
@@ -52,8 +52,36 @@ function handleSearchSubmit(event) {
   searchCity(searchInput.value);
 }
 
+function displayForecast() {
+  
+  let days = ["Tue", "Wed", "Thu", "Fri", "Sat"];
+  let forecastHtml = "";
+
+  days.forEach(function(day) {
+    forecastHtml = 
+      forecastHtml +
+      `
+        <div class="weather-forecast-day">
+        <div class="weather-forecast-date">${day}</div>
+        <div class="weather-forecast-icon"></div>
+        <div class="weather-forecast-temperatures"> 
+        <div class="weather-forecast-temperature"><strong>15</strong><sup>o</sup></div>
+        <div class="weather-forecast-temperature">9<sup>o</sup></div>
+        </div>
+        </div>
+        `;
+  });
+  
+  let forecastElement = document.querySelector("#forecast");
+  forecastElement.innerHTML = forecastHtml;
+}
+
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Paris");
+displayForecast();
+
+
+
 
